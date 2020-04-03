@@ -21,7 +21,7 @@ try:
         driver.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight', scroll_elem)
         internship_list = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "GridItem__jobContent_14uVD")))
         new_length = len(internship_list)
-        if new_length - prev_length == 100:
+        if new_length - prev_length == 150:
             break 
 
 except TimeoutException:
