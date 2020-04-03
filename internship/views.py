@@ -1,3 +1,7 @@
 from django.shortcuts import render
+from .internship import return_scraped_data
 
-# Create your views here.
+
+def list_internships(request):
+    context = return_scraped_data(150, 180, "Software")
+
