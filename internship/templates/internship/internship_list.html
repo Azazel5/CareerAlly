@@ -1,0 +1,25 @@
+{% extends 'internship/base.html' %}
+{% load static %}
+
+{% block styles %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'home_style.css' %}">
+{% endblock styles %}
+
+{% block title %}Internships{% endblock title %}
+
+{% block content %}
+    {% for key, value in accessor.items %}
+            <h5 class="font-italic font-weight-bold ml-4 mt-4">{{ key }}. {{ value.0 }}</h6> 
+            <h6 class="ml-4 mt-4 card-body card">
+                <div class="row">
+                    <div class="col">
+                        {{ value.1 }} | {{ value.2 }} | {{ value.3 }}
+                    </div>
+                    <div class="col-4 text-center">
+                        <button type="button" class="btn btn-outline-secondary">Apply</button>
+                    </div>
+                </div>
+            </h6>
+            
+    {% endfor %}
+{% endblock content %}

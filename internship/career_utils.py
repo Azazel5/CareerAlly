@@ -29,14 +29,14 @@ def return_scraped_data(length_internships, time_to_solve_captcha, position_sear
     else:
         return helper(keyword_searcher, driver, internship_list, length_internships, position_search)
 
-# A helper function which specifies what to search for and how many internships we want to spit out. 
+# A helper function which specifies what to search for and how many internships we want to spit out.
+# The number of internships returned will be 25 more than the argument you pass in. 
 def helper(key, driver, internship_list, length_internships, position_search):
     search_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[3]/div[1]/form/button")
     key.send_keys(position_search)
     search_button.click()
     try:
         WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "GridItem__jobContent_14uVD")))
-        prev_length = len(internship_list)
         internship_list = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CLASS_NAME, "GridItem__jobContent_14uVD")))
         prev_length = len(internship_list)
         scroll_elem = driver.find_element_by_xpath("//*[@id=\"jobs-page\"]/div/div[2]/div/div/div[2]/div")
@@ -52,13 +52,15 @@ def helper(key, driver, internship_list, length_internships, position_search):
         print("Loading took too much time! Get a better internet connection :(")
 
     fina_list = {}
+    id_ = 1
     if internship_list != []: 
         for i in range(len(internship_list)):
             position_name = internship_list[i].find_element_by_xpath(".//div[2]/p").text 
             company_name = internship_list[i].find_element_by_class_name("GridItem__companyNameText_24M9G").text 
             location = internship_list[i].find_element_by_xpath(".//p[2]").text 
             days_ago_posted = internship_list[i].find_element_by_xpath(".//p[3]").text 
-            fina_list[position_name] = [company_name, location, days_ago_posted]
+            fina_list[id_] = [position_name, company_name, location, days_ago_posted]
+            id_ += 1 
     
     if fina_list == {}:
         fina_list['result'] = 'You couldn\'\t solve the captcha on time'
