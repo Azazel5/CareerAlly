@@ -24,9 +24,9 @@ def return_scraped_data(length_internships, time_to_solve_captcha, position_sear
             print("You couldn't solve the captcha in the required time.")
         
         finally:
-            return helper(keyword_searcher, driver, length_internships, position_search)
+            return helper(keyword_searcher, driver, internship_list, length_internships, position_search)
 
-    finally:
+    else:
         return helper(keyword_searcher, driver, internship_list, length_internships, position_search)
 
 # A helper function which specifies what to search for and how many internships we want to spit out. 
@@ -51,15 +51,16 @@ def helper(key, driver, internship_list, length_internships, position_search):
     except TimeoutException:
         print("Loading took too much time! Get a better internet connection :(")
 
-    pos_dictionary = {}
+    fina_list = {}
     if internship_list != []: 
         for i in range(len(internship_list)):
-            postion_name = internship_list[i].find_element_by_xpath(".//div[2]/p").text 
+            position_name = internship_list[i].find_element_by_xpath(".//div[2]/p").text 
             company_name = internship_list[i].find_element_by_class_name("GridItem__companyNameText_24M9G").text 
             location = internship_list[i].find_element_by_xpath(".//p[2]").text 
             days_ago_posted = internship_list[i].find_element_by_xpath(".//p[3]").text 
-            pos_dictionary[postion_name] = [company_name, location, days_ago_posted]
-            
-    return pos_dictionary
+            fina_list[position_name] = [company_name, location, days_ago_posted]
     
-print(return_scraped_data(150, 180, "Software"))
+    if fina_list == {}:
+        fina_list['result'] = 'You couldn\'\t solve the captcha on time'
+    return fina_list
+    

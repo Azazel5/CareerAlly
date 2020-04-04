@@ -1,0 +1,9 @@
+{% extends 'internship/base.html' %}
+
+{% block title %}Internships{% endblock title %}
+
+{% block content %}
+    {% for key, value in accessor.items %}
+            <h6>{{ key }} - > {{ value }}</h6>
+    {% endfor %}
+{% endblock content %}

@@ -1,7 +1,10 @@
+import json 
 from django.shortcuts import render
-from .internship import return_scraped_data
+from .career_utils import return_scraped_data
 
 
 def list_internships(request):
-    context = return_scraped_data(150, 180, "Software")
+    context = {'accessor': return_scraped_data(150, 180, "Software")}
+    print(len(context))
+    return render(request, 'internship/home.html', context)
 
