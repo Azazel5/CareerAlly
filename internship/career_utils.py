@@ -6,6 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 
+from googlesearch import search 
+
 
 # Returns the scraped data from the website in a dictionary form. Checks if we ran into captchas, and if so,
 # we can specify how long to wait for the user to go into the browser and pass it. After that it uses the 
@@ -16,6 +18,8 @@ def return_scraped_data(length_internships, time_to_solve_captcha, position_sear
     driver.get("https://www.internships.com/")
     try:
         keyword_searcher = driver.find_element_by_name("keywords")
+        search_button = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[3]/div[1]/form/button")
+
     except:
         print("Ran into some captchas. You got %d seconds to solve it." %time_to_solve_captcha)
         try:
@@ -58,11 +62,16 @@ def helper(key, driver, internship_list, length_internships, position_search):
             position_name = internship_list[i].find_element_by_xpath(".//div[2]/p").text 
             company_name = internship_list[i].find_element_by_class_name("GridItem__companyNameText_24M9G").text 
             location = internship_list[i].find_element_by_xpath(".//p[2]").text 
-            days_ago_posted = internship_list[i].find_element_by_xpath(".//p[3]").text 
+            days_ago_posted = internship_list[i].find_element_by_xpath(".//p[3]").text
             fina_list[id_] = [position_name, company_name, location, days_ago_posted]
             id_ += 1 
     
     if fina_list == {}:
         fina_list['result'] = 'You couldn\'\t solve the captcha on time'
     return fina_list
-    
+
+def link_returner(position, company):
+    search_string = company + " " + position + " careers"
+    for url in search(search_string, stop=1):
+        return url
+

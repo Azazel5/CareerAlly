@@ -1,3 +1,8 @@
-.navbar, .bg-custon {
+.navbar, .bg-custom {
     background-color: #b8d8ba;
+}
+
+.nav-item {
+    margin-left: 30px;
+    margin-right: 40px;
 }

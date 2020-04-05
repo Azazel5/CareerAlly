@@ -9,14 +9,20 @@
 
 {% block content %}
     {% for key, value in accessor.items %}
-            <h5 class="font-italic font-weight-bold ml-4 mt-4">{{ key }}. {{ value.0 }}</h6> 
-            <h6 class="ml-4 mt-4 card-body card">
+            <h5 class="font-italic ml-5 mt-5">{{ key }}. {{ value.0 }}</h6> 
+            <h6 class="ml-5 mt-3 card-body card">
                 <div class="row">
                     <div class="col">
-                        {{ value.1 }} | {{ value.2 }} | {{ value.3 }}
-                    </div>
+                        {{ value.1 }} 
+                        <footer class="mt-1 font-weight-light">{{ value.2 }} | {{ value.3 }}</footer>
+                     </div>
                     <div class="col-4 text-center">
-                        <button type="button" class="btn btn-outline-secondary">Apply</button>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="position_name" value="{{ value.0 }}">
+                            <input type="hidden" name="company_name" value="{{ value.1 }}">    
+                            <button type="submit" class="btn btn-outline-secondary">Get Link</button>                   
+                        </form>
                     </div>
                 </div>
             </h6>
