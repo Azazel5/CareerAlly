@@ -8,19 +8,21 @@
 {% block title %}Internships{% endblock title %}
 
 {% block content %}
-    {% for key, value in accessor.items %}
-            <h5 class="font-italic ml-5 mt-5">{{ key }}. {{ value.0 }}</h6> 
+    {% for internship in internship_list %}
+            <h5 class="font-italic ml-5 mt-5">{{ internship.pk }}. {{ internship.position_name }}</h6> 
             <h6 class="ml-5 mt-3 card-body card">
                 <div class="row">
                     <div class="col">
-                        {{ value.1 }} 
-                        <footer class="mt-1 font-weight-light">{{ value.2 }} | {{ value.3 }}</footer>
+                        {{ internship.company_name }} 
+                        <footer class="mt-1 font-weight-light">
+                            {{ internship.location }} | {{ internship.date_added }} | {{ internship.days_ago_posted }}
+                        </footer>
                      </div>
                     <div class="col-4 text-center">
                         <form method="POST">
                             {% csrf_token %}
-                            <input type="hidden" name="position_name" value="{{ value.0 }}">
-                            <input type="hidden" name="company_name" value="{{ value.1 }}">    
+                            <input type="hidden" name="position_name" value="{{ internship.position_name }}">
+                            <input type="hidden" name="company_name" value="{{ internship.company_name }}">
                             <button type="submit" class="btn btn-outline-secondary">Get Link</button>                   
                         </form>
                     </div>

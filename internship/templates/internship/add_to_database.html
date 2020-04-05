@@ -1,0 +1,13 @@
+{% extends 'internship/base.html' %}
+
+{% load static %}
+
+{% block styles %} 
+    <link rel="stylesheet" type="text/css" href="{% static 'home_style.css' %}">
+{% endblock styles %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+    <h4 class="font-italic font-weight-bold ml-4 mt-4">{{ accessor }}</h6> 
+{% endblock content %}
