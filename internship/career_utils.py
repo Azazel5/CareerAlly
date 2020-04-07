@@ -56,15 +56,13 @@ def helper(key, driver, internship_list, length_internships, position_search):
         print("Loading took too much time! Get a better internet connection :(")
 
     fina_list = {}
-    id_ = 1
     if internship_list != []: 
         for i in range(len(internship_list)):
             position_name = internship_list[i].find_element_by_xpath(".//div[2]/p").text 
             company_name = internship_list[i].find_element_by_class_name("GridItem__companyNameText_24M9G").text 
             location = internship_list[i].find_element_by_xpath(".//p[2]").text 
             days_ago_posted = internship_list[i].find_element_by_xpath(".//p[3]").text
-            fina_list[id_] = [position_name, company_name, location, days_ago_posted]
-            id_ += 1 
+            fina_list[position_name] = [company_name, location, days_ago_posted]
     
     if fina_list == {}:
         fina_list['result'] = 'You couldn\'\t solve the captcha on time'

@@ -6,14 +6,20 @@
 {% endblock styles %}
 
 {% block title %}Internships{% endblock title %}
+{% block search %}
+    <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search by company" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+{% endblock search %}
 
 {% block content %}
     {% for internship in internship_list %}
-            <h5 class="font-italic ml-5 mt-5">{{ internship.pk }}. {{ internship.position_name }}</h6> 
+            <h5 class="font-italic ml-5 mt-5">{{ internship.position_name }}</h6> 
             <h6 class="ml-5 mt-3 card-body card">
                 <div class="row">
                     <div class="col">
-                        {{ internship.company_name }} 
+                        {{ internship.company.company_name }} 
                         <footer class="mt-1 font-weight-light">
                             {{ internship.location }} | {{ internship.date_added }} | {{ internship.days_ago_posted }}
                         </footer>
@@ -30,4 +36,16 @@
             </h6>
             
     {% endfor %}
+
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info ml-5 mt-5" href="?page=1">First</a>
+            <a class="btn btn-outline-info ml-5 mt-5" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info ml-5 mt-5" href="?page={{ page_obj.next_page_number }}">Next</a>  
+            <a class="btn btn-outline-info ml-5 mt-5" href="?page={{ page_obj.paginator.num_pages }}">Last</a>        
+        {% endif %}
+    {% endif %}
 {% endblock content %}

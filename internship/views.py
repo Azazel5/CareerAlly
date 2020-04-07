@@ -7,7 +7,7 @@ from django.views.generic import ListView
 from django.shortcuts import redirect
 from datetime import datetime
 
-from .models import InternshipModel 
+from .models import InternshipModel, CompanyModel 
 from .career_utils import return_scraped_data, link_returner
 
 
@@ -18,6 +18,8 @@ class ListInternship(ListView):
     model = InternshipModel
     template_name = 'internship/internship_list.html'
     context_object_name = 'internship_list'
+    paginate_by = 10
+    ordering = ['-date_added']
 
     def post(self, request, *args, **kwargs):
         position_name = request.POST.get('position_name')
@@ -27,16 +29,26 @@ class ListInternship(ListView):
         messages.success(request, 'The link to the company\'s career page has been copied to your clipboard.')
         return redirect('internship_list')
 
+class CompanyInternshipList(ListView):
+    model = InternshipModel
+    template_name = 'internship/internship_list.html'
+    context_object_name = 'internship_list'
+    paginate_by = 5 
+    ordering = ['-date_added']
+
 
 def scrape_new_internships(request):
     context = {'accessor': return_scraped_data(25, 180, "Software")}
     inner_dict = list(context.values())[0]
     for key in inner_dict:
-        obj = InternshipModel.objects.get_or_create(
-            position_name=inner_dict[key][0],
-            company_name=inner_dict[key][1],
-            location=inner_dict[key][2],
-            days_ago_posted= inner_dict[key][3]
+        company, created_tuple = CompanyModel.objects.get_or_create(
+            company_name=inner_dict[key][0]
+        )
+        position, created_tuple = InternshipModel.objects.get_or_create(
+            position_name=key,
+            company=company,
+            location=inner_dict[key][1],
+            days_ago_posted= inner_dict[key][2],
         )
 
     return render(request, 'internship/add_to_database.html', {'accessor': 'Added to database'})
