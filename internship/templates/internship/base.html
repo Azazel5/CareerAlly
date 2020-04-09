@@ -1,8 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_style.css' %}">
+
     {% block styles %}{% endblock styles %}
     <title>{% block title %}{% endblock title %}</title>
 </head>
@@ -12,16 +16,17 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
-        
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                     <!-- Add the active class inside if you wanna specify -->
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'internship_list' %}">Internships</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'internship_add' %}">Add Internships</a>
                     </li>
+                {% endif %}
             </ul>
             {% block search %}
             {% endblock search %}

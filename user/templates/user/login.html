@@ -1,0 +1,18 @@
+{% extends 'internship/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="height: 500px;">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</div>
+{% endblock content %}

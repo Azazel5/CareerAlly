@@ -1,0 +1,8 @@
+{% extends 'internship/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <p class="font-weight-light mt-5">You have been logged out!</p>
+        <a type="button" class="btn btn-outline-secondary" href="{% url 'login' %}">Login Again</a>
+    </div>
+{% endblock content %}
