@@ -1,0 +1,23 @@
+{% extends 'internship/base.html' %}
+
+{% load static %}
+
+{% block styles %} 
+{% endblock styles %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+    <div class="card">
+      <img class="card-img-top" src="{% static 'user/swayam.png' %}" style="height: 20%; width: 20%;">
+      <div class="card-body">
+        <h5 class="card-title">Example Person</h5>
+        <p class="card-text">
+            Number of applications: 5
+            Companies associated: 
+        </p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

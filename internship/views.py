@@ -11,9 +11,6 @@ from .models import InternshipModel, CompanyModel
 from .career_utils import return_scraped_data, link_returner
 
 
-def home(request):
-    return render(request, 'internship/home.html', {'accessor': 'welcome homie'})
-
 class ListInternship(ListView):
     model = InternshipModel
     template_name = 'internship/internship_list.html'
@@ -56,3 +53,4 @@ def scrape_new_internships(request):
 # Have to validate my results properly before adding it to the database 
 # Check if the response you get from the function is proper before seding it into the table 
 # To kill port -> sudo lsof -i tcp:8000
+

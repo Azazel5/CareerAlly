@@ -1,9 +1,12 @@
 {% extends 'internship/base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
 <div class="row justify-content-center align-items-center" style="height: 500px;">
     <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+    <img src="{% static 'user/swayam.png' %}" 
+    style="width: 100px; height: 100px; opacity: 0.85; margin-left: 35%;">
     <form method="POST">
         {% csrf_token %}
         {{ form|crispy }}
