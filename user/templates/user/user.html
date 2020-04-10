@@ -3,21 +3,120 @@
 {% load static %}
 
 {% block styles %} 
+  <link rel="stylesheet" type="text/css" href="{% static 'user/accordian_style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock styles %}
 
 {% block title %}Home{% endblock title %}
-
-{% block content %}
+<!---
     <div class="card">
-      <img class="card-img-top" src="{% static 'user/swayam.png' %}" style="height: 20%; width: 20%;">
-      <div class="card-body">
-        <h5 class="card-title">Example Person</h5>
+      <div class="card-body text-center">
+        <img class="card-img-top" src="{% static 'user/swayam.png' %}" style="height: 20%; width: 20%;">
+
+        <h5 class="card-title">{{ user_obj.user }}</h5>
         <p class="card-text">
-            Number of applications: 5
-            Companies associated: 
+            Recent Application: 
+            {{ user_obj.internships_applied.company }} | 
+            {{ user_obj.internships_applied.position_name }}
+            <br>
         </p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <p class="card-text">
+           {{ user_obj.notes }}
+           <br>
+          <small class="text-muted">
+              Date of position: {{ user_obj.internships_applied.date_added }}
+          </small></p>
       </div>
     </div>
   </div>
+-->
+
+{% block content %}
+<div class="container mt-4">
+
+ <div class="row py-5">
+      <div class="col-lg-9 mx-auto text-gray text-center">
+          <h1 class="display-4">{{ user_obj.0.user }}</h1>
+          <p class="lead mb-0">View your internship profile information</p>
+      </div>
+  </div>
+
+  <div class="row mt-5">
+      <div class="col-lg-9 mx-auto">
+          <!-- Accordion -->
+          <div id="accordionExample" class="accordion shadow">
+
+              <!-- Accordion item 1 -->
+              <div class="card">
+                  <div id="headingOne" class="card-header bg-white shadow-sm border-0">
+                      <h2 class="mb-0">
+                          <button type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="btn btn-link text-dark font-weight-bold text-uppercase collapsible-link">Internships Applied</button>
+                      </h2>
+                  </div>
+                  <div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample" class="collapse">
+                      <div class="card-body p-5">
+                          <p class="font-weight-light m-0">
+                            {% for item in user_obj %}
+                                {% if not forloop.last %}
+                                  {{ item.internships_applied.position_name }},&nbsp;
+                                {% else %}
+                                {{ item.internships_applied.position_name }}
+                                {% endif %}
+                            {% endfor %}
+                          </p>
+                      </div>
+                  </div>
+              </div><!-- End -->
+
+              <!-- Accordion item 2 -->
+              <div class="card">
+                  <div id="headingTwo" class="card-header bg-white shadow-sm border-0">
+                      <h2 class="mb-0">
+                          <button type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="btn btn-link collapsed text-dark font-weight-bold text-uppercase collapsible-link">Companies</button>
+                      </h2>
+                  </div>
+                  <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" class="collapse">
+                      <div class="card-body p-5">
+                          <p class="font-weight-light m-0">
+                            {% for item in user_obj %}
+                            {% if not forloop.last %}
+                              {{ item.internships_applied.company.company_name }},&nbsp;
+                            {% else %}
+                            {{ item.internships_applied.company.company_name}}
+                            {% endif %}
+                        {% endfor %}
+                          </p>
+                      </div>
+                  </div>
+              </div><!-- End -->
+
+              <!-- Accordion item 3 -->
+              <div class="card">
+                  <div id="headingThree" class="card-header bg-white shadow-sm border-0">
+                      <h2 class="mb-0">
+                          <button type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="btn btn-link collapsed text-dark font-weight-bold text-uppercase collapsible-link">Stats</button>
+                      </h2>
+                  </div>
+                  <div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordionExample" class="collapse">
+                      <div class="card-body p-5">
+                          <p class="font-weight-light m-0">
+                            Number of applications: {{ num_applications }}
+                            <br>
+                            {% if recent_application %}
+                            Recent Application: 
+                            {{ recent_application.internships_applied.company }} | 
+                            {{ recent_application.internships_applied.position_name }}
+                            <br>
+                            Date of position: {{ recent_application.internships_applied.date_added }}
+                            {% endif %}
+                          </p>
+                      </div>
+                  </div>
+              </div><!-- End -->
+
+          </div><!-- End -->
+      </div>
+  </div>
+</div>
+
 {% endblock content %}

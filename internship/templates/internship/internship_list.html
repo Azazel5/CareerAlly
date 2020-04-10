@@ -23,13 +23,22 @@
                             {{ internship.location }} | {{ internship.date_added }} | {{ internship.days_ago_posted }}
                         </footer>
                      </div>
-                    <div class="col-4 text-center">
+                    <div class="d-flex flex-row col-4 text-center">
+                        <div class="p-2">
                         <form method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="position_name" value="{{ internship.position_name }}">
                             <input type="hidden" name="company_name" value="{{ internship.company_name }}">
-                            <button type="submit" class="btn btn-outline-secondary">Get Link</button>                   
+                            <button name="link_button" type="submit" class="btn btn-outline-secondary">Get Link</button>                   
                         </form>
+                    </div>
+                        <div class="p-2">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="internship_pk" value="{{ internship.pk }}">
+                            <button name="add_button" class="btn btn-outline-success">Add to applied</button>  
+                        </form> 
+                    </div>                
                     </div>
                 </div>
             </h6>

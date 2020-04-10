@@ -1,17 +1,22 @@
 import json 
 import pyperclip 
+from datetime import datetime
 
 from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import ListView 
 from django.shortcuts import redirect
-from datetime import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
 
 from .models import InternshipModel, CompanyModel 
 from .career_utils import return_scraped_data, link_returner
 
 
-class ListInternship(ListView):
+class ListInternship(LoginRequiredMixin, ListView):
+    login_url = 'login'
+
     model = InternshipModel
     template_name = 'internship/internship_list.html'
     context_object_name = 'internship_list'
@@ -19,21 +24,19 @@ class ListInternship(ListView):
     ordering = ['-date_added']
 
     def post(self, request, *args, **kwargs):
-        position_name = request.POST.get('position_name')
-        company_name = request.POST.get('company_name')
-        link = link_returner(position_name, company_name)
-        pyperclip.copy(link)
-        messages.success(request, 'The link to the company\'s career page has been copied to your clipboard.')
-        return redirect('internship_list')
+        if 'link_button' in request.POST:
+            position_name = request.POST.get('position_name')
+            company_name = request.POST.get('company_name')
+            link = link_returner(position_name, company_name)
+            pyperclip.copy(link)
+            messages.success(request, 'The link to the company\'s career page has been copied to your clipboard.')
+            return redirect('internship_list')
+        elif 'add_button' in request.POST:
+            internship = request.POST.get('internship_pk')
+            request.session['internship_pk'] = internship
+            return redirect('user_info')
 
-class CompanyInternshipList(ListView):
-    model = InternshipModel
-    template_name = 'internship/internship_list.html'
-    context_object_name = 'internship_list'
-    paginate_by = 5 
-    ordering = ['-date_added']
-
-
+@login_required()
 def scrape_new_internships(request):
     context = {'accessor': return_scraped_data(25, 180, "Software")}
     inner_dict = list(context.values())[0]
