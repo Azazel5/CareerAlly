@@ -16,12 +16,10 @@ from .career_utils import return_scraped_data, link_returner
 
 class ListInternship(LoginRequiredMixin, ListView):
     login_url = 'login'
-
-    model = InternshipModel
+    queryset = InternshipModel.objects.all().order_by('days_ago_posted')
     template_name = 'internship/internship_list.html'
     context_object_name = 'internship_list'
     paginate_by = 10
-    ordering = ['-date_added']
 
     def post(self, request, *args, **kwargs):
         if 'link_button' in request.POST:
@@ -31,10 +29,26 @@ class ListInternship(LoginRequiredMixin, ListView):
             pyperclip.copy(link)
             messages.success(request, 'The link to the company\'s career page has been copied to your clipboard.')
             return redirect('internship_list')
+            
         elif 'add_button' in request.POST:
             internship = request.POST.get('internship_pk')
             request.session['internship_pk'] = internship
             return redirect('user_info')
+        
+    
+    def get(self, request, *args, **kwargs):
+        if 'company' in request.GET:
+            search_content = self.request.GET.get('company')
+            if search_content != "":
+                try:
+                    company_obj = CompanyModel.objects.get(company_name__iexact=search_content)
+                    self.queryset = InternshipModel.objects.filter(company=company_obj).order_by('days_ago_posted')
+                    return render(request, 'internship/internship_list.html', context={
+                    'internship_list': self.queryset})
+                except:
+                    print("No such object.")  
+
+        return super(ListInternship, self).get(request, *args, **kwargs)
 
 @login_required()
 def scrape_new_internships(request):
