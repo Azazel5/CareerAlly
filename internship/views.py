@@ -9,12 +9,15 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
-
 from .models import InternshipModel, CompanyModel 
 from .career_utils import return_scraped_data, link_returner
 
 
 class ListInternship(LoginRequiredMixin, ListView):
+# Lists the internships in the internship_list url 
+# ------------------------------------------------
+# Is only viewable by logged in users and paginated 
+
     login_url = 'login'
     queryset = InternshipModel.objects.all().order_by('days_ago_posted')
     template_name = 'internship/internship_list.html'
@@ -22,6 +25,9 @@ class ListInternship(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def post(self, request, *args, **kwargs):
+    # Check which post request happens so we can either get the link to the internship
+    # using the link_returner function or send the internship pk to the user application
+
         if 'link_button' in request.POST:
             position_name = request.POST.get('position_name')
             company_name = request.POST.get('company_name')
@@ -37,6 +43,7 @@ class ListInternship(LoginRequiredMixin, ListView):
         
     
     def get(self, request, *args, **kwargs):
+    # Get a search parameter to search by company and query the database
         if 'company' in request.GET:
             search_content = self.request.GET.get('company')
             if search_content != "":
@@ -52,6 +59,9 @@ class ListInternship(LoginRequiredMixin, ListView):
 
 @login_required()
 def scrape_new_internships(request):
+# Use the return_scraped_data function to add internships to the 
+# database; makes sure that the objects aren't repeated using the 
+# get_or_created function 
     context = {'accessor': return_scraped_data(25, 180, "Software")}
     inner_dict = list(context.values())[0]
     for key in inner_dict:

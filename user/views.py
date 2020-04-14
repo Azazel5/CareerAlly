@@ -7,6 +7,8 @@ from internship.models import InternshipModel
 
 @login_required()
 def user_view(request):
+# Gets the session object from the internship application view and adds it to the database
+# Does the usual checks to make sure duplication isn't an issue. 
     req_object = request.session.get('internship_pk')
     recent_user_application = None
     if req_object != None:

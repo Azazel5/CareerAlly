@@ -14,6 +14,8 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 def get_env_variable(var_name):
+# Gets all the environment variables needed for the project
+
     try:
         return os.environ.get(var_name)
     except KeyError:

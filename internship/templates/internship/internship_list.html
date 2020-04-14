@@ -28,6 +28,9 @@
                         <div class="p-2">
                         <form method="POST">
                             {% csrf_token %}
+                            <!-- Using a post request on button click to pass thre position name and company name
+                                so it can later be displayed on the view
+                             -->
                             <input type="hidden" name="position_name" value="{{ internship.position_name }}">
                             <input type="hidden" name="company_name" value="{{ internship.company_name }}">
                             <button name="link_button" type="submit" class="btn btn-outline-secondary">Get Link</button>                   
@@ -36,6 +39,7 @@
                         <div class="p-2">
                         <form method="POST">
                             {% csrf_token %}
+                            <!-- Passing the internship pk so it can be added to the user's information database later-->
                             <input type="hidden" name="internship_pk" value="{{ internship.pk }}">
                             <button name="add_button" class="btn btn-outline-success">Add to applied</button>  
                         </form> 
@@ -45,7 +49,7 @@
             </h6>
             
     {% endfor %}
-
+    <!-- Basic pagination for the entire internship list -->
     {% if is_paginated %}
         {% if page_obj.has_previous %}
             <a class="btn btn-outline-info ml-5 mt-5" href="?page=1">First</a>

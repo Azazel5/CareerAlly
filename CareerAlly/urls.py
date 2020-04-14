@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
+# The base url is handled by the user application because I wanted seperation between the internships specific
+# information versus the user's information (how many internships he's applied to etc)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),

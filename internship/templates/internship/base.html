@@ -25,6 +25,9 @@
                             <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </li>
+                <!-- Only give authenticated users access to internship information or let them add
+                     internships using that page 
+                 -->
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'internship_list' %}">Internships</a>
@@ -38,7 +41,7 @@
             {% endblock search %}
             </div>
         </nav>
-
+        <!-- Flash messages for when the internship link has been copied to the clipboard -->
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">{{ message }}</div>
