@@ -15,4 +15,4 @@ class InternshipModel(models.Model):
     date_added = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return str(self.company.id) + " | " + self.position_name
+        return str(self.company.id) + " | " + self.position_name + " | posID: " + str(self.id)

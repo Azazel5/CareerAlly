@@ -38,7 +38,9 @@ class ListInternship(LoginRequiredMixin, ListView):
             
         elif 'add_button' in request.POST:
             internship = request.POST.get('internship_pk')
+            notes = request.POST.get('notes')
             request.session['internship_pk'] = internship
+            request.session['internship_notes'] = notes
             return redirect('user_info')
         
     
